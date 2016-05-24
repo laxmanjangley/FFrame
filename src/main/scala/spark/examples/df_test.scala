@@ -13,11 +13,18 @@ import org.apache.spark.sql.types._
 /**
   * Created by laxman.jangley on 24/5/16.
   */
-class featurefu_wrapper {
+class df_test {
   def main(args : Array[String]) {
-    println("im ini\n");
+    println("im ini\n")
     val conf = new SparkConf().setAppName("SparkGrep").setMaster(args(0))
     val sc = new SparkContext(conf)
+    val sqlContext = new SQLContext(sc)
+    val df = sqlContext.read
+      .format("com.databricks.spark.csv")
+      .option("header", "true") // Use first line of all files as header
+      .option("inferSchema", "true") // Automatically infer data types
+      .load("testfile")
+    df.show()
     val inputFile = sc.textFile(args(1), 2).cache()
     val matchTerm : String = args(2)
     val numMatches = inputFile.filter(line => line.contains(matchTerm)).count()
