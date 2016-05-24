@@ -15,7 +15,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.ml.param._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import com.linkedin.featurefu.expr
+//import com.linkedin.featurefu.expr
 
 /**
   * Created by laxman.jangley on 24/5/16.
@@ -41,8 +41,8 @@ class FeatureFuTransformer (override val uid: String)
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputcol, value)
 
-  @Since("2.0.0")
-  override def transform(dataset: Dataset[_]): DataFrame = {
+//  @Since("2.0.0")
+  override def transform(df : DataFrame, params: ParamMap)  {
 //    // Schema transformation.
 //    val schema = dataset.schema
 //    lazy val first = dataset.toDF.first()
@@ -119,10 +119,10 @@ class FeatureFuTransformer (override val uid: String)
 //  override def copy(extra: ParamMap): VectorAssembler = defaultCopy(extra)
 }
 //
-@Since("1.6.0")
+//@Since("1.6.0")
 object FeatureFuTransformer extends DefaultParamsReadable[FeatureFuTransformer] {
 
-  @Since("1.6.0")
+//  @Since("1.6.0")
   override def load(path: String): FeatureFuTransformer = super.load(path)
 
   private[feature] def assemble(vv: Any*): Vector = {
