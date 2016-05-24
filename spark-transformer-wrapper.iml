@@ -175,5 +175,6 @@
     <orderEntry type="library" name="Maven: com.databricks:spark-csv_2.10:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-csv:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.univocity:univocity-parsers:1.5.1" level="project" />
+    <orderEntry type="library" name="Maven: com.linkedin.featurefu:expr:0.0.3" level="project" />
   </component>
 </module>
