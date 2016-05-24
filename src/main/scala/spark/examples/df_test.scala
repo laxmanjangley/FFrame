@@ -24,7 +24,12 @@ class df_test {
       .option("header", "true") // Use first line of all files as header
       .option("inferSchema", "true") // Automatically infer data types
       .load("testfile")
-    df.show()
+//    df.printSchema()
+    df.show(10)
+    val zipCol = df("zip") + 10
+    val nf = df.withColumn("new zip", zipCol)
+    println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n")
+    nf.show(10)
     val inputFile = sc.textFile(args(1), 2).cache()
     val matchTerm : String = args(2)
     val numMatches = inputFile.filter(line => line.contains(matchTerm)).count()
