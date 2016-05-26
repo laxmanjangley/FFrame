@@ -8,7 +8,7 @@ import org.apache.spark.sql._
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.types
 import org.apache.spark.sql.types._
-
+import com.linkedin.featurefu.expr.{Expr, Expression, VariableRegistry}
 
 /**
   * Created by laxman.jangley on 24/5/16.
@@ -16,7 +16,7 @@ import org.apache.spark.sql.types._
 class df_test {
   def main(args : Array[String]) {
     println("im ini\n")
-    val conf = new SparkConf().setAppName("SparkGrep").setMaster(args(0))
+    val conf = new SparkConf().setAppName("dataframe_test").setMaster(args(0))
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
     val df = sqlContext.read
@@ -24,7 +24,6 @@ class df_test {
       .option("header", "true") // Use first line of all files as header
       .option("inferSchema", "true") // Automatically infer data types
       .load("testfile")
-//    df.printSchema()
     df.show(10)
     val zipCol = df("zip") + 10
     val nf = df.withColumn("new zip", zipCol)
