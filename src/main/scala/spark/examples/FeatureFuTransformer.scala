@@ -1,7 +1,6 @@
 package spark.examples.feature
 
 
-import com.linkedin.featurefu.expr.{Expression, VariableRegistry, Expr}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.attribute.AttributeGroup
 import org.apache.spark.ml.param.{ParamMap, _}
@@ -19,11 +18,13 @@ trait FFParams extends Params {
   val inputcol = new Param[String] (this, "inputcol", "input column")
   val outputcol = new Param[String](this, "outputcol", "output column")
   val expr = new Param[String](this, "expr", "feature fu expression")
+  val function = new Param[String=>Double](this, "external library function", "function")
   def pvals(pm: ParamMap) =  {
     pm.get(inputcols).getOrElse("topicSet")
     pm.get(inputcols).getOrElse("topicSet")
     pm.get(outputcol).getOrElse("feature")
     pm.get(expr).getOrElse("expression")
+    pm.get(function).getOrElse("function")
   }
 }
 class FeatureFuTransformer (override val uid: String)
@@ -50,37 +51,67 @@ class FeatureFuTransformer (override val uid: String)
   /** @group setParam */
   def setNumFeatures(value: Int): this.type = set(numFeatures, value)
 
+  /** @group setParam */
+  def setFunction(value: String=>Double) = set(function, value)
 
-    override def transform(dataset: DataFrame): DataFrame = {
-      val outputSchema = transformSchema(dataset.schema)
-      val inputs = $(inputcols)
-      def func (name: String) (exp: String , elem : Double) = {
-          exp.replace(name, elem.toString)
-      }
-      val temp = udf {x : Double => $(expr)}
-      val calc : String => Double = (exp  : String) => {
-        val vr = new VariableRegistry()
-        val expression = Expression.parse(exp, vr)
-        expression.evaluate()
-      }
-      var dst = dataset
-      var data = dataset.select(col("*"), temp(dataset(inputs(0))).as("0"))
-      var str = 0
-      inputs.foreach(i => {
-        val f = udf( func (i) _ )
-        data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString))
-        str += 1
-      })
-      val c = udf(calc )
-      val metadata = outputSchema($(outputcol)).metadata
-      var st = str
-      inputs.foreach(i => {
-        st -= 1
-        data = data.drop(st.toString)
-      })
-      data.select(col("*"), c(data(str.toString)).as($(outputcol), metadata)).drop(str.toString)
-
+  override def transform(dataset: DataFrame): DataFrame = {
+    val outputSchema = transformSchema(dataset.schema)
+    val inputs = $(inputcols)
+    def func (name: String) (exp: String , elem : Double) = {
+      exp.replace(name, elem.toString)
     }
+    val temp = udf {x : Double => $(expr)}
+
+    var dst = dataset
+    var data = dataset.select(col("*"), temp(dataset(inputs(0))).as("0"))
+    var str = 0
+    inputs.foreach(i => {
+      val f = udf( func (i) _ )
+      data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString))
+      str += 1
+    })
+    val c = udf($(function) )
+    val metadata = outputSchema($(outputcol)).metadata
+    var st = str
+    inputs.foreach(i => {
+      st -= 1
+      data = data.drop(st.toString)
+    })
+    data.select(col("*"), c(data(str.toString)).as($(outputcol), metadata)).drop(str.toString)
+
+  }
+
+
+//    override def transform(dataset: DataFrame): DataFrame = {
+//      val outputSchema = transformSchema(dataset.schema)
+//      val inputs = $(inputcols)
+//      def func (name: String) (exp: String , elem : Double) = {
+//          exp.replace(name, elem.toString)
+//      }
+//      val temp = udf {x : Double => $(expr)}
+//      val calc : String => Double = (exp  : String) => {
+//        val vr = new VariableRegistry()
+//        val expression = Expression.parse(exp, vr)
+//        expression.evaluate()
+//      }
+//      var dst = dataset
+//      var data = dataset.select(col("*"), temp(dataset(inputs(0))).as("0"))
+//      var str = 0
+//      inputs.foreach(i => {
+//        val f = udf( func (i) _ )
+//        data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString))
+//        str += 1
+//      })
+//      val c = udf(calc )
+//      val metadata = outputSchema($(outputcol)).metadata
+//      var st = str
+//      inputs.foreach(i => {
+//        st -= 1
+//        data = data.drop(st.toString)
+//      })
+//      data.select(col("*"), c(data(str.toString)).as($(outputcol), metadata)).drop(str.toString)
+//
+//    }
 
 
 

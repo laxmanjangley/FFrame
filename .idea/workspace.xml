@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="22a08d55-3bdc-4bd2-ab4e-cf2e25bf7c87" name="Default" comment="Merge branch 'master' of github.com:laxmanjangley/FFrame&#10;">
       <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/df_test$$anonfun$1.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/spark/examples/SparkGrep$.class" afterPath="$PROJECT_DIR$/target/classes/spark/examples/SparkGrep$.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/spark/examples/df_test.class" afterPath="$PROJECT_DIR$/target/classes/spark/examples/df_test.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" />
     </list>
     <ignored path="spark-transformer-wrapper.iws" />
@@ -84,20 +80,20 @@
       <file leaf-file-name="SparkGrep.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35">
+            <state relative-caret-position="216">
               <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="df_test.scala" pinned="false" current-in-tab="false">
+      <file leaf-file-name="df_test.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="276">
+              <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
               <folding>
-                <element signature="e#24#73#0" expanded="true" />
+                <element signature="e#24#89#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,13 +109,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeatureFuTransformer.scala" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FeatureFuTransformer.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
+            <state relative-caret-position="36">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding>
-                <element signature="e#33#104#0" expanded="true" />
+                <element signature="e#33#71#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,8 +164,8 @@
         <option value="$PROJECT_DIR$/gen.py" />
         <option value="$PROJECT_DIR$/src/main/scala/spark/examples/pipeline.scala" />
         <option value="$PROJECT_DIR$/pipeline.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" />
       </list>
     </option>
   </component>
@@ -757,7 +753,7 @@
       <workItem from="1464085203549" duration="1791000" />
       <workItem from="1464087526037" duration="642000" />
       <workItem from="1464092781383" duration="744000" />
-      <workItem from="1464157674096" duration="38662000" />
+      <workItem from="1464157674096" duration="39486000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of github.com:laxmanjangley/FFrame&#10;">
       <created>1464071391623</created>
@@ -770,7 +766,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62422000" />
+    <option name="totallyTimeSpent" value="63246000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -794,7 +790,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9440459" sideWeight="0.15075758" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13199426" sideWeight="0.84924245" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34146342" sideWeight="0.84924245" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49083665" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -920,7 +916,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -930,7 +926,7 @@
         <state relative-caret-position="1044">
           <caret line="58" column="36" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="36" />
           <folding>
-            <element signature="e#33#104#0" expanded="true" />
+            <element signature="e#33#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -986,7 +982,7 @@
         <state relative-caret-position="468">
           <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -996,7 +992,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#33#104#0" expanded="true" />
+            <element signature="e#33#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1052,7 +1048,7 @@
         <state relative-caret-position="468">
           <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1062,7 +1058,7 @@
         <state relative-caret-position="2196">
           <caret line="122" column="36" selection-start-line="122" selection-start-column="36" selection-end-line="122" selection-end-column="36" />
           <folding>
-            <element signature="e#33#104#0" expanded="true" />
+            <element signature="e#33#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1096,7 +1092,7 @@
         <state relative-caret-position="468">
           <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1106,7 +1102,7 @@
         <state relative-caret-position="306">
           <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
           <folding>
-            <element signature="e#33#104#0" expanded="true" />
+            <element signature="e#33#71#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1140,7 +1136,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1223,9 +1219,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <element signature="e#33#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
+        <state relative-caret-position="216">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
         </state>
@@ -1233,20 +1239,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="276">
+          <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
           <folding>
-            <element signature="e#24#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
-          <folding>
-            <element signature="e#33#104#0" expanded="true" />
+            <element signature="e#24#89#0" expanded="true" />
           </folding>
         </state>
       </provider>

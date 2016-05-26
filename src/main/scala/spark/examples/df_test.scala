@@ -1,5 +1,6 @@
 package spark.examples
 
+import com.linkedin.featurefu.expr.{Expression, VariableRegistry}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.feature.{HashingTF, Tokenizer}
@@ -23,12 +24,18 @@ class df_test {
       .option("inferSchema", "true") // Automatically infer data types
       .load("test.csv")
     df.show(10)
+    val calc : String => Double = (exp  : String) => {
+      val vr = new VariableRegistry()
+      val expression = Expression.parse(exp, vr)
+      expression.evaluate()
+    }
     val ff = new FeatureFuTransformer()
       .setInputCol("a")
-      .setExpr("(+ a b)")
+      .setExpr("(+ a (+ b c))")
       .setOutputCol("f")
-      .setInputCols(Seq("a","b"))
+      .setInputCols(Seq("a","b","c"))
       .setNumFeatures(5)
+      .setFunction(calc)
     val x = ff.transform(df)
     x.show(10)
 
