@@ -9,7 +9,7 @@ object SparkGrep {
 //			System.err.println("Usage: SparkGrep <host> <input_file> <match_term>")
 //			System.exit(1)
 //		}
-		val ff = new featurefu_test()
+		val ff = new df_test()
 		ff.main(args)
 		System.exit(0)
 	}
