@@ -2,22 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22a08d55-3bdc-4bd2-ab4e-cf2e25bf7c87" name="Default" comment="Merge branch 'master' of github.com:laxmanjangley/FFrame&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/featurefu_test.scala" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_linkedin_featurefu_expr_0_0_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/FFParams$$anonfun$pvals$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/FFParams$$anonfun$pvals$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/FFParams$class.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/FFParams.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/featurefu_wrapper$$anonfun$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/spark/examples/featurefu_wrapper.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/spark/examples/SparkGrep$.class" afterPath="$PROJECT_DIR$/target/classes/spark/examples/SparkGrep$.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/spark/examples/df_test$$anonfun$1.class" afterPath="$PROJECT_DIR$/target/classes/spark/examples/df_test$$anonfun$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/spark/examples/df_test.class" afterPath="$PROJECT_DIR$/target/classes/spark/examples/df_test.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spark-transformer-wrapper.iml" afterPath="$PROJECT_DIR$/spark-transformer-wrapper.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/SparkGrep.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" afterPath="$PROJECT_DIR$/src/main/scala/spark/examples/df_test.scala" />
     </list>
     <ignored path="spark-transformer-wrapper.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -113,8 +99,8 @@
       <file leaf-file-name="FeatureFuTransformer.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="81" column="49" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="49" />
+            <state relative-caret-position="368">
+              <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
               <folding>
                 <element signature="e#25#96#0" expanded="true" />
               </folding>
@@ -745,7 +731,7 @@
       <workItem from="1464085203549" duration="1791000" />
       <workItem from="1464087526037" duration="642000" />
       <workItem from="1464092781383" duration="744000" />
-      <workItem from="1464157674096" duration="17227000" />
+      <workItem from="1464157674096" duration="17570000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of github.com:laxmanjangley/FFrame&#10;">
       <created>1464071391623</created>
@@ -758,7 +744,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40987000" />
+    <option name="totallyTimeSpent" value="41330000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -771,11 +757,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10030864" sideWeight="0.48446214" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.10030864" sideWeight="0.48446214" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49721116" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -783,7 +769,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.904321" sideWeight="0.85418326" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49083665" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287037" sideWeight="0.49083665" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21912351" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1171,8 +1157,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/spark/examples/FeatureFuTransformer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="81" column="49" selection-start-line="81" selection-start-column="41" selection-end-line="81" selection-end-column="49" />
+        <state relative-caret-position="368">
+          <caret line="78" column="18" selection-start-line="78" selection-start-column="18" selection-end-line="78" selection-end-column="18" />
           <folding>
             <element signature="e#25#96#0" expanded="true" />
           </folding>
