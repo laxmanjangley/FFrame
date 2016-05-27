@@ -7,7 +7,8 @@ import org.apache.spark.ml.feature.{HashingTF, Tokenizer}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.mllib.linalg.Vector
 import org.apache.spark.sql.{Row, SQLContext}
-import spark.examples.feature.FeatureFuTransformer
+import spark.examples.FeatureFuTransformer
+import spark.feature.ExprTransformer
 
 /**
   * Created by laxman.jangley on 25/5/16.
@@ -23,7 +24,7 @@ class df_test {
       .option("header", "true") // Use first line of all files as header
       .option("inferSchema", "true") // Automatically infer data types
       .load("test.csv")
-    df.show(10)
+//    df.show(10)
     val calc : String => Double = (exp  : String) => {
       val vr = new VariableRegistry()
       val expression = Expression.parse(exp, vr)
@@ -37,8 +38,14 @@ class df_test {
       .setNumFeatures(5)
       .setFunction(calc)
     val x = ff.transform(df)
-    x.show(10)
-
+//    x.show(10)
+    val gg = new ExprTransformer()
+      .setInputCols(Seq("a", "b"))
+      .setExpr("(+ a b)")
+      .setOutputCol("myResult")
+      .setNumFeatures(5)
+      .setFunction(calc)
+    gg.transform(df).show(20)
     //    val inputFile = sc.textFile(args(1), 2).cache()
 //    val matchTerm : String = args(2)
 //    val numMatches = inputFile.filter(line => line.contains(matchTerm)).count()

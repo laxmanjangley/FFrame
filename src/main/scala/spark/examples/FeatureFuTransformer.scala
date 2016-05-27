@@ -1,4 +1,4 @@
-package spark.examples.feature
+package spark.examples
 
 
 import org.apache.spark.ml.Transformer
