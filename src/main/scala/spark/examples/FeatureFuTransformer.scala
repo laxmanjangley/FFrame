@@ -1,7 +1,6 @@
 package spark.examples
 
 
-import breeze.linalg.*
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.attribute.AttributeGroup
 import org.apache.spark.ml.param.{ParamMap, _}
@@ -59,74 +58,19 @@ class FeatureFuTransformer (override val uid: String)
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     val metadata = outputSchema($(outputcol)).metadata
-    val arg1 = dataset.columns.toSeq
+    val cols = dataset.columns.toSeq
     val f = udf {(r: Row) => {
-      var exp = $(expr)
-      r.toSeq.zipWithIndex foreach {case (v,i) => {
-        exp = exp.replace(arg1(i), r.getInt(i).toString)
-      }}
-      $(function) (exp)
+      val exp = $(expr)
+      for (i <- 1 to $(numFeatures)) {
+        exp.replace(cols(i), r.getInt(i).toString)
+      }
+      $(function)(exp)
     }}
     dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputcol), metadata))
   }
 
-
-//    override def transform(dataset: DataFrame): DataFrame = {
-//      val outputSchema = transformSchema(dataset.schema)
-//      val inputs = $(inputcols)
-//      def func (name: String) (exp: String , elem : Double) = {
-//          exp.replace(name, elem.toString)
-//      }
-//      val temp = udf {x : Double => $(expr)}
-//      val calc : String => Double = (exp  : String) => {
-//        val vr = new VariableRegistry()
-//        val expression = Expression.parse(exp, vr)
-//        expression.evaluate()
-//      }
-//      var dst = dataset
-//      var data = dataset.select(col("*"), temp(dataset(inputs(0))).as("0"))
-//      var str = 0
-//      inputs.foreach(i => {
-//        val f = udf( func (i) _ )
-//        data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString))
-//        str += 1
-//      })
-//      val c = udf(calc )
-//      val metadata = outputSchema($(outputcol)).metadata
-//      var st = str
-//      inputs.foreach(i => {
-//        st -= 1
-//        data = data.drop(st.toString)
-//      })
-//      data.select(col("*"), c(data(str.toString)).as($(outputcol), metadata)).drop(str.toString)
-//
-//    }
-
-
-
-
-/* transform done on only one input column*/
-//
-//  override def transform(dataset: DataFrame): DataFrame = {
-//    val outputSchema = transformSchema(dataset.schema)
-//    val input = $(inputcol)
-//    val func:  (Double => Double) = (elem : Double) => {
-//      var e = $(expr)
-//      e = e.replace(input, elem.toString)
-//      val vr = new VariableRegistry()
-//      val exp = Expression.parse(e, vr)
-//      exp.evaluate()
-//    }
-//    val f = udf(func )
-//    val metadata = outputSchema($(outputcol)).metadata
-//    dataset.select(col("*"), f(col($(inputcol))).as($(outputcol), metadata))
-////    dataset.withColumn($(outputcol), f(col(input)))
-//  }
-
   override def transformSchema(schema: StructType): StructType = {
-//    val inputType = schema($(inputcol)).dataType
-//    require(inputType.isInstanceOf[ArrayType],
-//      s"The input column must be ArrayType, but got $inputType.")
+// TODO: ??
     val attrGroup = new AttributeGroup($(outputcol), $(numFeatures))
     val col = attrGroup.toStructField()
     require(!schema.fieldNames.contains(col.name), s"Column ${col.name} already exists.")

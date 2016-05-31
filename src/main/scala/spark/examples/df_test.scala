@@ -18,48 +18,45 @@ class df_test {
     val sqlContext = new SQLContext(sc)
     val df = sqlContext.read
       .format("com.databricks.spark.csv")
-      .option("header", "true") // Use first line of all files as header
-      .option("inferSchema", "true") // Automatically infer data types
+      .option("header", "true")
+      .option("inferSchema", "true")
       .load("test.csv")
-//    df.show(10)
+
     val calc : String => Double = (exp  : String) => {
       val vr = new VariableRegistry()
       val expression = Expression.parse(exp, vr)
       expression.evaluate()
     }
+
     def cal (exp :  String, vars : Seq[String] , vals : Seq[Double]) = {
       val vr = new VariableRegistry()
       vals.zipWithIndex foreach {case (v,i) => exp.replace(vars(i), v.toString)}
       val expr = Expression.parse(exp, vr)
       expr.evaluate()
     }
+
     val ff = new FeatureFuTransformer()
       .setInputCol("a")
-      .setExpr("(+ a b)")
+      .setExpr("(+ a (* b (+ c d)))")
       .setOutputCol("f")
-      .setInputCols(Seq("a","b"))
+      .setInputCols(Seq("a","b", "c"))
       .setNumFeatures(5)
       .setFunction(calc)
+
     var t0 = System.nanoTime()
     ff.transform(df)
     var t1 = System.nanoTime()
     println("Elapsed time 1: " + (t1 - t0) + "ns")
-//    val x = ff.transform(df)
-//    x.show(10)
+
     val gg = new ExprTransformer()
-      .setInputCols(Seq("a", "b"))
-      .setExpr("(+ a b)")
-      .setOutputCol("myResult")
+      .setExpr("(+ a (* b (+ c d)))")
+      .setOutputCol("f")
+      .setInputCols(Seq("a","b", "c", "d"))
       .setNumFeatures(5)
       .setFunction(calc)
     t0 = System.nanoTime()
-    gg.transform(df).show(20)
+    gg.transform(df)
     t1 = System.nanoTime()
     println("Elapsed time 2: " + (t1 - t0) + "ns")
-
-    //    val inputFile = sc.textFile(args(1), 2).cache()
-//    val matchTerm : String = args(2)
-//    val numMatches = inputFile.filter(line => line.contains(matchTerm)).count()
-//    println("%s lines in %s contain %s".format(numMatches, args(1), matchTerm))
   }
 }
