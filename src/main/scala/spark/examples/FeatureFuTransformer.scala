@@ -1,13 +1,15 @@
 package spark.examples
 
 
+import breeze.linalg.*
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.attribute.AttributeGroup
 import org.apache.spark.ml.param.{ParamMap, _}
 import org.apache.spark.ml.util._
-import org.apache.spark.sql.functions.{col, concat_ws, udf}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.{Column, DataFrame}
+import org.apache.spark.sql._
+import org.apache.spark.sql.{Column, DataFrame, Row}
 
 /**
   * Created by laxman.jangley on 24/5/16.
@@ -56,29 +58,16 @@ class FeatureFuTransformer (override val uid: String)
 
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
-    val inputs = $(inputcols)
-    def func (name: String) (exp: String , elem : Double) = {
-      exp.replace(name, elem.toString)
-    }
-    val temp = udf {x : Double => $(expr)}
-
-    var dst = dataset
-    var data = dataset.select(col("*"), temp(dataset(inputs(0))).as("0"))
-    var str = 0
-    inputs.foreach(i => {
-      val f = udf( func (i) _ )
-      data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString))
-      str += 1
-    })
-    val c = udf($(function) )
     val metadata = outputSchema($(outputcol)).metadata
-    var st = str
-    inputs.foreach(i => {
-      st -= 1
-      data = data.drop(st.toString)
-    })
-    data.select(col("*"), c(data(str.toString)).as($(outputcol), metadata)).drop(str.toString)
-
+    val arg1 = dataset.columns.toSeq
+    val f = udf {(r: Row) => {
+      var exp = $(expr)
+      r.toSeq.zipWithIndex foreach {case (v,i) => {
+        exp = exp.replace(arg1(i), r.getInt(i).toString)
+      }}
+      $(function) (exp)
+    }}
+    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputcol), metadata))
   }
 
 

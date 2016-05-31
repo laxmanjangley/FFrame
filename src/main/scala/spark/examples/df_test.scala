@@ -1,13 +1,10 @@
 package spark.examples
 
+
+
 import com.linkedin.featurefu.expr.{Expression, VariableRegistry}
+import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.ml.classification.LogisticRegression
-import org.apache.spark.ml.feature.{HashingTF, Tokenizer}
-import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.mllib.linalg.Vector
-import org.apache.spark.sql.{Row, SQLContext}
-import spark.examples.FeatureFuTransformer
 import spark.feature.ExprTransformer
 
 /**
@@ -30,14 +27,24 @@ class df_test {
       val expression = Expression.parse(exp, vr)
       expression.evaluate()
     }
+    def cal (exp :  String, vars : Seq[String] , vals : Seq[Double]) = {
+      val vr = new VariableRegistry()
+      vals.zipWithIndex foreach {case (v,i) => exp.replace(vars(i), v.toString)}
+      val expr = Expression.parse(exp, vr)
+      expr.evaluate()
+    }
     val ff = new FeatureFuTransformer()
       .setInputCol("a")
-      .setExpr("(+ a (+ b c))")
+      .setExpr("(+ a b)")
       .setOutputCol("f")
-      .setInputCols(Seq("a","b","c"))
+      .setInputCols(Seq("a","b"))
       .setNumFeatures(5)
       .setFunction(calc)
-    val x = ff.transform(df)
+    var t0 = System.nanoTime()
+    ff.transform(df)
+    var t1 = System.nanoTime()
+    println("Elapsed time 1: " + (t1 - t0) + "ns")
+//    val x = ff.transform(df)
 //    x.show(10)
     val gg = new ExprTransformer()
       .setInputCols(Seq("a", "b"))
@@ -45,7 +52,11 @@ class df_test {
       .setOutputCol("myResult")
       .setNumFeatures(5)
       .setFunction(calc)
+    t0 = System.nanoTime()
     gg.transform(df).show(20)
+    t1 = System.nanoTime()
+    println("Elapsed time 2: " + (t1 - t0) + "ns")
+
     //    val inputFile = sc.textFile(args(1), 2).cache()
 //    val matchTerm : String = args(2)
 //    val numMatches = inputFile.filter(line => line.contains(matchTerm)).count()
