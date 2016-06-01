@@ -15,29 +15,29 @@ import org.apache.spark.sql.{Column, DataFrame, Row}
   */
 
 trait FFParams extends Params {
-  val inputcols = new Param[Seq[String]](this,  "inputcols", "input columns")
-  val inputcol = new Param[String] (this, "inputcol", "input column")
+//  val inputcols = new Param[Seq[String]](this,  "inputcols", "input columns")
+//  val inputcol = new Param[String] (this, "inputcol", "input column")
   val outputcol = new Param[String](this, "outputcol", "output column")
   val expr = new Param[String](this, "expr", "feature fu expression")
   val function = new Param[String=>Double](this, "external library function", "function")
   def pvals(pm: ParamMap) =  {
-    pm.get(inputcols).getOrElse("topicSet")
-    pm.get(inputcols).getOrElse("topicSet")
+//    pm.get(inputcols).getOrElse("topicSet")
+//    pm.get(inputcols).getOrElse("topicSet")
     pm.get(outputcol).getOrElse("feature")
     pm.get(expr).getOrElse("expression")
     pm.get(function).getOrElse("function")
   }
 }
-class FeatureFuTransformer (override val uid: String)
+class Expr(override val uid: String)
   extends Transformer with FFParams {
 
   def this() = this(Identifiable.randomUID("FeatureFuTransformer"))
 
-  /** @group setParam */
-  def setInputCols(value: Seq[String]): this.type = set(inputcols, value)
-
-  /** @group setParam */
-  def setInputCol(value: String) : this.type  = set(inputcol, value)
+//  /** @group setParam */
+//  def setInputCols(value: Seq[String]): this.type = set(inputcols, value)
+//
+//  /** @group setParam */
+//  def setInputCol(value: String) : this.type  = set(inputcol, value)
 
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputcol, value)
@@ -77,7 +77,7 @@ class FeatureFuTransformer (override val uid: String)
     StructType(schema.fields :+ col)
   }
 
-  override def copy(extra: ParamMap): FeatureFuTransformer = defaultCopy(extra)
+  override def copy(extra: ParamMap): Expr = defaultCopy(extra)
 }
 
 //@Since("1.6.0")

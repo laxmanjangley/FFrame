@@ -35,11 +35,9 @@ class df_test {
       expr.evaluate()
     }
 
-    val ff = new FeatureFuTransformer()
-      .setInputCol("a")
+    val ff = new Expr()
       .setExpr("(+ a (* b (+ c d)))")
       .setOutputCol("f")
-      .setInputCols(Seq("a","b", "c"))
       .setNumFeatures(5)
       .setFunction(calc)
 
