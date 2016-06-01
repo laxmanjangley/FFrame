@@ -11,6 +11,12 @@ import spark.feature.ExprTransformer
   * Created by laxman.jangley on 25/5/16.
   */
 class df_test {
+  val calc : java.lang.String => Double = (exp  : java.lang.String) => {
+    val vr = new VariableRegistry()
+    val expression = Expression.parse(exp, vr)
+    expression.evaluate()
+  }
+
   def main(args : Array[String]) {
     println("im ini\n")
     val conf = new SparkConf().setAppName("dataframe_test").setMaster(args(0))
@@ -22,11 +28,6 @@ class df_test {
       .option("inferSchema", "true")
       .load("test.csv")
 
-    val calc : String => Double = (exp  : String) => {
-      val vr = new VariableRegistry()
-      val expression = Expression.parse(exp, vr)
-      expression.evaluate()
-    }
 
     def cal (exp :  String, vars : Seq[String] , vals : Seq[Double]) = {
       val vr = new VariableRegistry()
@@ -35,7 +36,7 @@ class df_test {
       expr.evaluate()
     }
 
-    val ff = new Expr()
+    val ff = new ExpressionEval()
       .setExpr("(+ a (* b (+ c d)))")
       .setOutputCol("f")
       .setNumFeatures(5)

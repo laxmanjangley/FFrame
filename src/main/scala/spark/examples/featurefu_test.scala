@@ -7,15 +7,15 @@ import com.linkedin.featurefu.expr._
   */
 class featurefu_test {
   def main(args : Array[String]) {
-        val registry: VariableRegistry = new VariableRegistry
-        val expr: Expr = Expression.parse(args(1), registry)
-        System.out.println("=" + expr.toString)
-        if (registry.isEmpty) {
-          System.out.println("=" + expr.evaluate)
-        }
-
-        System.out.println("tree")
-        System.out.println(Expression.prettyTree(expr))
+//        val registry: VariableRegistry = new VariableRegistry
+//        val expr: ExpressionEval = Expression.parse(args(1), registry)
+//        System.out.println("=" + expr.toString)
+//        if (registry.isEmpty) {
+//          System.out.println("=" + expr.evaluate)
+//        }
+//
+//        System.out.println("tree")
+//        System.out.println(Expression.prettyTree(expr))
   }
 }
 
