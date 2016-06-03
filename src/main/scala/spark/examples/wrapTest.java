@@ -2,15 +2,12 @@ package spark.examples;
 
 import com.flipkart.fdp.ml.modelinfo.ExpressionEvalModelInfo;
 import com.flipkart.fdp.ml.transformer.ExpressionEvalTransformer;
-import com.flipkart.fdp.ml.transformer.Transformer;
 import com.linkedin.featurefu.expr.Expr;
 import com.linkedin.featurefu.expr.Expression;
 import com.linkedin.featurefu.expr.VariableRegistry;
-import spark.examples.ExpressionEval;
-import spark.examples.df_test;
 import scala.Function1;
 import scala.runtime.AbstractFunction1;
-import java.lang.reflect.Array;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,15 +50,19 @@ public class wrapTest {
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 64.0, 251.0, 253.0, 220.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 24.0, 193.0, 253.0, 220.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         data.put("features", values);
+        data.put("ff", values);
 
-        df_test exp_function = new df_test();
+
+        //init transformer
         ExpressionEvalModelInfo modelInfo = new ExpressionEvalModelInfo();
-//        String[] inputs = new String[] {"features"};
         Set inputs = new HashSet();
         inputs.add("features");
+        inputs.add("ff");
         modelInfo.setInputKeys(inputs);
-        modelInfo.setExpr("features + 1");
-        modelInfo.setNumFeatures(1);
+        String[] inputcols = {"features", "ff"};
+        modelInfo.setInputCols(inputcols);
+        modelInfo.setExpr("(+ features ff)");
+        modelInfo.setNumFeatures(2);
         Function1<String, Object> f = new AbstractFunction1<String, Object>() {
             public Object apply(String input){
                 return  calc(input);
