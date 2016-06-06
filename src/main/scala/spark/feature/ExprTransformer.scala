@@ -6,7 +6,7 @@ import org.apache.spark.ml.param.{ParamMap, _}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, UserDefinedFunction}
 
 /**
   * Created by laxman.jangley on 27/5/16.
@@ -48,24 +48,16 @@ class ExprTransformer (override val uid: String) extends Transformer with FFPara
 
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
-    // dummy udf to add the expression column to the dataframe
-    val dummy = udf {x : Double => $(expr)}
-    var data = dataset.select(col("*"), dummy(dataset($(inputCols)(0))).as("0"))
-    // iterate over inputCols to replace each column with its value in the expression
-    // TODO: Figure out how to apply this substitution in a much cleaner way
-    // func replaces a column with its value in the row in the expression
-    def func (name: String) (exp: String , elem : Double): String = exp.replace(name, elem.toString)
-    var str = 0
-    $(inputCols).foreach(i => {
-      val f = udf( func (i) _ )
-      data = data.select(col("*"), f(data(str.toString), data(i)).as((str+1).toString)).drop(str.toString)
-      str += 1
-    })
-    //apply evaluation function on the substituted string
-    val exprEvaluate = udf($(function) )
     val metadata = outputSchema($(outputCol)).metadata
-    data.select(col("*"), exprEvaluate(data(str.toString)).as($(outputCol), metadata)).drop(str.toString)
+    val dummy = udf { x: Any => $(expr) }
+    var data = dataset.select(col("*"), dummy(col($(inputCols).head)).as("0"))
+    val substitute: (String => ((String, Double) => String)) = name => (exp, elem) => exp.replace(name, elem.toString)
+    def subst(v: String) = udf(substitute(v))
+    $(inputCols).view.zipWithIndex foreach { case (v, i) => data = data.select(col("*"), subst(v)(data(i.toString), data(v)).as((i + 1).toString)).drop(i.toString) }
+    val eval = udf($(function))
+    data.select(col("*"), eval(data($(inputCols).length.toString)).as($(outputCol), metadata)).drop($(inputCols).length.toString)
   }
+
 
   override def transformSchema(schema: StructType): StructType = {
     // TODO: Assertions on inputCols

@@ -1,7 +1,5 @@
 package spark.examples
 
-
-
 import com.linkedin.featurefu.expr.{Expression, VariableRegistry}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
@@ -26,7 +24,7 @@ class df_test {
       .format("com.databricks.spark.csv")
       .option("header", "true")
       .option("inferSchema", "true")
-      .load("test.csv")
+      .load("/home/laxman.jangley/project/FFrame/test.csv")
 
 
     def cal (exp :  String, vars : Seq[String] , vals : Seq[Double]) = {

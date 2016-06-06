@@ -9,10 +9,10 @@ object SparkGrep {
 //			System.err.println("Usage: SparkGrep <host> <input_file> <match_term>")
 //			System.exit(1)
 //		}
-//		val ff = new df_test()
-//		ff.main(args)
-		val wraptest = new wrapTest()
-    wraptest.main()
+		val ff = new df_test()
+		ff.main(args)
+//		val wraptest = new wrapTest()
+//    wraptest.main()
 		System.exit(0)
 	}
 }

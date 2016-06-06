@@ -63,19 +63,18 @@ class ExpressionEval(override val uid: String)
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     val metadata = outputSchema($(outputcol)).metadata
-    val cols = dataset.columns.toSeq
     val f = udf {(r: Row) => {
       val exp = $(expr)
       for (i <- 1 to $(numFeatures)) {
-        exp.replace(cols(i), r.getInt(i).toString)
+        exp.replace(dataset.columns.toSeq(i), r.getInt(i).toString)
       }
       $(function)(exp)
     }}
     dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputcol), metadata))
   }
 
+
   override def transformSchema(schema: StructType): StructType = {
-// TODO: ??
     val attrGroup = new AttributeGroup($(outputcol), $(numFeatures))
     val col = attrGroup.toStructField()
     require(!schema.fieldNames.contains(col.name), s"Column ${col.name} already exists.")
@@ -84,10 +83,3 @@ class ExpressionEval(override val uid: String)
 
   override def copy(extra: ParamMap): ExpressionEval = defaultCopy(extra)
 }
-
-//@Since("1.6.0")
-//object featurefu_test extends featurefu_test {
-//
-////  @Since("1.6.0")
-//  override def load(path: String): featurefu_test = super.load(path)
-//}
