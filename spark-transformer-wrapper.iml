@@ -9,6 +9,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="expr" level="application" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file:///usr/share/scala/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file:///usr/share/scala/lib" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="lib" level="application" />
+    <orderEntry type="library" name="scala-sdk-2.11.4" level="application" />
     <orderEntry type="library" name="Maven: org.apache.spark:spark-core_2.11:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.avro:avro-mapred:hadoop2:1.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.avro:avro-ipc:1.7.7" level="project" />
@@ -106,7 +119,6 @@
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.uncommons.maths:uncommons-maths:1.2.2a" level="project" />
     <orderEntry type="library" name="Maven: com.typesafe.akka:akka-slf4j_2.11:2.3.11" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.7" level="project" />
     <orderEntry type="library" name="Maven: org.json4s:json4s-jackson_2.11:3.2.10" level="project" />
     <orderEntry type="library" name="Maven: org.json4s:json4s-core_2.11:3.2.10" level="project" />
     <orderEntry type="library" name="Maven: org.json4s:json4s-ast_2.11:3.2.10" level="project" />
@@ -171,9 +183,6 @@
     <orderEntry type="library" name="Maven: com.databricks:spark-csv_2.10:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-csv:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.univocity:univocity-parsers:1.5.1" level="project" />
-    <orderEntry type="library" name="scala-sdk-2.11.8" level="application" />
-    <orderEntry type="module" module-name="spark-transformers" />
-    <orderEntry type="library" name="expr" level="project" />
-    <orderEntry type="module" module-name="models-info" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.8" level="project" />
   </component>
 </module>

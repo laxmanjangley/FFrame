@@ -29,6 +29,13 @@
             <artifactId>spark-csv_2.10</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <!-- http://mvnrepository.com/artifact/org.scala-lang/scala-library -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.8</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>com.linkedin.featurefu</groupId>-->
             <!--<artifactId>expr</artifactId>-->

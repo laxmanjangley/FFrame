@@ -33,18 +33,23 @@ class ExprTransformer (override val uid: String) extends Transformer with FFPara
 
   /** @group setParam */
   def setInputCols(value: Seq[String]): this.type = set(inputCols, value)
+  def getInputCols() = $(inputCols).toArray
 
   /** @group setParam */
   def setOutputCol(value: String): this.type = set(outputCol, value)
+  def getOutputCols() = $(outputCol)
 
   /** @group setParam */
   def setExpr(value: String): this.type = set(expr, value)
+  def getExpr() = $(expr)
 
   /** @group setParam */
   def setNumFeatures(value: Int): this.type = set(numFeatures, value)
+  def getNumFeatures() = $(numFeatures)
 
   /** @group setParam */
   def setFunction(value: String=>Double) = set(function, value)
+  def getFunction() =  $(function)
 
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)

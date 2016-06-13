@@ -61,7 +61,7 @@ public class wrapTest {
         modelInfo.setInputKeys(inputs);
         String[] inputcols = {"features", "ff"};
         modelInfo.setInputCols(inputcols);
-        modelInfo.setExpr("(+ features ff)");
+        modelInfo.setExpr("(+ features (+ 1 ff))");
         modelInfo.setNumFeatures(2);
         Function1<String, Object> f = new AbstractFunction1<String, Object>() {
             public Object apply(String input){
