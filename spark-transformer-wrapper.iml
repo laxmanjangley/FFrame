@@ -184,5 +184,6 @@
     <orderEntry type="library" name="Maven: org.apache.commons:commons-csv:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.univocity:univocity-parsers:1.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.8" level="project" />
+    <orderEntry type="module" module-name="models-info" />
   </component>
 </module>
