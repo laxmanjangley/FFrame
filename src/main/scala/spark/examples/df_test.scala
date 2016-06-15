@@ -61,11 +61,11 @@ class df_test {
 
     type Environment = Map[String, Object]
     class functions{
-      val f : (Array[Object] => Object) = x => x match {
+      val f : (Array[Object] => Object) = {
         case (Array(x)) => x
         case  x : Array[Object] => (x(0).asInstanceOf[Double] + f(x.drop(1)).asInstanceOf[Double]).asInstanceOf[Object]
       }
-      val g : (Array[Any] => Any) = x => x match {
+      val g : (Array[Any] => Any) = {
         case (Array(x)) => x.asInstanceOf[String]
         case x: Array[Any] => x(0).asInstanceOf[String] + g(x.drop(1)).asInstanceOf[String]
       }
@@ -76,18 +76,18 @@ class df_test {
       case Const(v) => v
     }
     val z = new functions
-    val exp = Op(Array(Var("a"), Var("b")), z.f)
+    val exp = Op(Array(Var("a"), Const(Double.box(1.0))), z.f)
 //    var env1: Map[String, Object] = Map()
 //    env1 += ("x" -> Double.box(1))
 //    env1 += ("y" -> Double.box(2))
 //    env1 += ("xx" -> "laxman".asInstanceOf[Object])
 //    env1 += ("yy" -> "jangley".asInstanceOf[Object])
-    val ff = new VecTransformer()
-      .setFunction(eval)
-      .setInputCols(Seq("a", "b"))
-      .setOutputCol("relax")
-      .setNumFeatures(5)
-      .setTree(exp)
-    ff.transform(df).show(20)
+//    val ff = new VecTransformer()
+//      .setFunction(eval)
+//      .setInputCols(Seq("a", "b"))
+//      .setOutputCol("relax")
+//      .setNumFeatures(5)
+//      .setTree(exp)
+//    ff.transform(df).show(20)
   }
 }
