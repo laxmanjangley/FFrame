@@ -34,18 +34,11 @@ object myMain {
 		class functions extends Serializable{
 			val f : (Array[Object] => Object) = {
 				case (Array(x)) => x
-				case  x : Array[Object] => (x(0).asInstanceOf[Double] + f(x.drop(1)).asInstanceOf[Double]).asInstanceOf[Object]
+				case  x : Array[Object] => (x(0).asInstanceOf[Int] + f(x.drop(1)).asInstanceOf[Int]).asInstanceOf[Object]
 			}
 			val g : (Array[Object] => Object) = {
 				case (Array(x)) => x.asInstanceOf[String]
 				case x: Array[Object] => x(0).asInstanceOf[String] + g(x.drop(1)).asInstanceOf[String]
-			}
-		}
-		object lol extends Serializable {
-			def func (tree:Object) (env:  Map[String, Object]): Object = tree match {
-				case Op(x, f) => f(x.map(xs => func(xs) (env)))
-				case Var(v) => env(v)
-				case Const(v) => v
 			}
 		}
 		val eval : (Object => (Map[String,Object] => Object)) = tree => env => {
@@ -78,7 +71,7 @@ object myMain {
 		val z = new functions
 		var env:Environment = Map()
 		env += ("a" -> Double.box(100))
-		val exp = Op(Array(Var("a"), Const(Double.box(1))), z.f)
+		val exp = Op(Array(Var("a"), Var("b")), z.f)
 		val e = Var("a");
 		val ff = new VecTransformer()
 			.setFunction(eval )
@@ -87,6 +80,6 @@ object myMain {
 			.setNumFeatures(5)
 			.setTree(exp)
 		ff.transform(df).show(20)
-		println(eval (exp) (env))
+//		println(eval (exp) (env))
 	}
 }

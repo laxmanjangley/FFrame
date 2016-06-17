@@ -41,24 +41,14 @@ class VecTransformer (override val uid: String)
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     val metadata = outputSchema($(outputCol)).metadata
-//    val g = udf {(x:Double) => {
-//      var env : Map[String, Object] = Map()
-//      env += ("a" -> Double.box(x))
-//      println(env("a"))
-//      ($(function) ($(tree)) (env)).toString
-//    }}
-//    dataset.columns.map(i => println(i))
     val cols = dataset.columns.toSeq
     val f = udf {r:Row => {
       val env : Map[String, Object] = mutable.Map[String,Object]()
       for( i <- 1 to $(numFeatures)){
-//        println(cols(i-1))
           env(cols(i-1)) = r.getInt(i-1).asInstanceOf[Object]
       }
-      ($(function) ($(tree)) (env)).asInstanceOf[String]
-//      "lol"
+      ($(function) ($(tree)) (env)).toString
     }}
-//    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
     dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
   }
 
