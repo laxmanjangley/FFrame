@@ -15,45 +15,56 @@ abstract class Parser {
   implicit class Regex(sc: StringContext) {
     def r = new scala.util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
   }
-  type Grammar = Map[String, Array[String]]
-  var grammar : Grammar
+  type Grammar = Array[(String, String)]
+//  var grammar : Grammar
+  var grammar : Grammar = Array(("s", "f(s*)"), ("s", "var"), ("s", "const"))
   var expression : String
-  var mapping : Map[String, Object]
+//  var mapping : Map[String, Object]
   object tokenType extends Enumeration {
     type tokenType = Value
-    val number , variable, string, op, rparen, lparen, notok = Value
+    val number , variable, string, op, rparen, lparen, notok, comma, ws = Value
   }
   import tokenType._
-  val tokenize : Unit => Array[(tokenType, Object)] = Unit => {
+  val tokenize : Unit => Array[(tokenType, String)] = Unit => {
     val input = expression.toCharArray
     var pos : Int = 0
-    var current : Array[Char] = Array()
     val getNextToken = () => {
+      var current : Array[Char] = Array()
       var flag = true
-      var token :(tokenType, Object) = new (tokenType, Object)
+      var token :(tokenType, String) = null
       while(flag){
-        if(pos == input.length){
+        if(pos >= input.length){
           flag  = false
-        }
-        current = current :+ input(pos)
-        pos +=1
-        current.toString match {
-          case r"[+-]([0-9]*[.])?[0-9]+" => flag = false; token = (number, current.toString.toFloat)
-          case r"[a-zA-Z_][a-zA-Z0-9_]{0,31}" => flag = false; token = (variable, current.toString)
-          case r"#[a-zA-Z_][a-zA-Z0-9_]{0,31}" => flag = false; token =  (op, current.toString)
-          case r"\".*\"" => flag = false; token = (string, current.toString)
-          case r"[(]" => flag = false; token  = (lparen, current.toString)
-          case r"[)]" =>flag = false; token = (rparen, current.toString)
-          case _ => token = (notok, "")
+        } else {
+          current = current :+ input(pos)
+          pos += 1
+//          println(current.mkString)
+          current.mkString("") match {
+            case r"[+-]([0-9]*[.])?[0-9]+" => token = (number, current.mkString(""))
+            case r"[a-zA-Z_][a-zA-Z0-9_]{0,31}" => token = (variable, current.mkString(""))
+            case r"[#a-zA-Z_][a-zA-Z0-9_]{0,31}" => token = (op, current.mkString(""))
+              //TODO string case here, regex fucks up
+//            case  => token = (string, current.toString)
+            case r"[(]" => token = (lparen, current.mkString(""))
+            case r"[)]" => token = (rparen, current.mkString(""))
+            case r"[,]" => token = (comma, ",")
+            case " " => token = (ws, " ")
+            case _ => flag = false; pos -= 1; current = Array()
+          }
         }
       }
       token
     }
-    var res : Array[(tokenType, Object)] = Array()
-    while(pos != input.length) {
+    var res : Array[(tokenType, String)] = Array()
+    while(pos < input.length) {
       val token = getNextToken()
-      res = res :+ (token._1, token._2.asInstanceOf[Object])
+      res = res :+ (token._1, token._2)
     }
     res
+  }
+  val parse = () => {
+    val tok = tokenize()
+    val stack = new mutable.Stack[tokenType]
+
   }
 }

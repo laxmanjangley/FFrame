@@ -5,7 +5,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, 
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 import spark.feature.{ExprTransformer, VecTransformer}
-
+import spark.examples.Parser
 import scala.collection.mutable
 import scala.collection.mutable.Map
 
@@ -21,14 +21,14 @@ case class Const(v : Object) extends Tree
 
 object myMain {
 	def main(args: Array[String]) {
-		val conf = new SparkConf().setAppName("dataframe_test").setMaster(args(0))
-		val sc = new SparkContext(conf)
-		val sqlContext = new SQLContext(sc)
-		val df = sqlContext.read
-			.format("com.databricks.spark.csv")
-			.option("header", "true")
-			.option("inferSchema", "true")
-			.load("/home/laxman.jangley/project/FFrame/test.csv")
+//		val conf = new SparkConf().setAppName("dataframe_test").setMaster(args(0))
+//		val sc = new SparkContext(conf)
+//		val sqlContext = new SQLContext(sc)
+//		val df = sqlContext.read
+//			.format("com.databricks.spark.csv")
+//			.option("header", "true")
+//			.option("inferSchema", "true")
+//			.load("/home/laxman.jangley/project/FFrame/test.csv")
 
 		type Environment = Map[String, Object]
 		class functions extends Serializable{
@@ -68,18 +68,25 @@ object myMain {
 			}
 			args(0)
 		}
-		val z = new functions
-		var env:Environment = Map()
-		env += ("a" -> Double.box(100))
-		val exp = Op(Array(Var("a"), Var("b")), z.f)
-		val e = Var("a");
-		val ff = new VecTransformer()
-			.setFunction(eval )
-			.setInputCols(Seq("a", "b"))
-			.setOutputCol("relax")
-			.setNumFeatures(5)
-			.setTree(exp)
-		ff.transform(df).show(20)
+//		val z = new functions
+//		var env:Environment = Map()
+//		env += ("a" -> Double.box(100))
+//		val exp = Op(Array(Var("a"), Var("b")), z.f)
+//		val e = Var("a");
+//		val ff = new VecTransformer()
+//			.setFunction(eval )
+//			.setInputCols(Seq("a", "b"))
+//			.setOutputCol("relax")
+//			.setNumFeatures(5)
+//			.setTree(exp)
+//		ff.transform(df).show(20)
 //		println(eval (exp) (env))
+		val t = new Parser{
+//			var grammar = Map()
+//			var mapping = Map()
+			var expression = "x #plus #gcd(y, z)"
+		}
+		t.tokenize().foreach(x => println(x._2))
+
 	}
 }
