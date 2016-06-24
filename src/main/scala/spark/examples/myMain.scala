@@ -1,5 +1,7 @@
 package spark.examples
 
+import spark.examples.{Const, Op, Tree, Var}
+
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
 
 import org.apache.spark.sql.SQLContext
@@ -10,11 +12,7 @@ import scala.collection.mutable
 import scala.collection.mutable.Map
 
 
-abstract class Tree extends Serializable
 
-case class Op(args:Array[Tree], f:Array[Object]=>Object) extends Tree
-case class Var(v : String) extends Tree
-case class Const(v : Object) extends Tree
 
 
 
@@ -45,9 +43,11 @@ object myMain {
 			val ostack = new mutable.Stack[Object]
 			val fstack = new mutable.Stack[Array[Object]=>Object]
 			ostack.push(tree)
+//			println(tree.asInstanceOf[Const])
 			var args : Array[Object] = Array()
 			while(!ostack.isEmpty) {
 				val i = ostack.pop()
+//				println(i)
 				if (i != null) {
 					i match {
 						case Var(x) => args = args :+ env(x)
@@ -69,8 +69,8 @@ object myMain {
 			args(0)
 		}
 //		val z = new functions
-//		var env:Environment = Map()
-//		env += ("a" -> Double.box(100))
+		var env:Environment = Map()
+		env += ("a" -> Double.box(100))
 //		val exp = Op(Array(Var("a"), Var("b")), z.f)
 //		val e = Var("a");
 //		val ff = new VecTransformer()
@@ -84,9 +84,14 @@ object myMain {
 		val t = new Parser{
 //			var grammar = Map()
 //			var mapping = Map()
-			var expression = "x #plus #gcd(y, z)"
+			var expression = "#plus(x,y)"
 		}
-		t.tokenize().foreach(x => println(x._2))
+//		t.tokenize().foreach(x => println(x._2))
+		println(t.parse())
+//		println(eval (t.parse()) (env))
+//		x match {
+//			case Op(x, f) => x.foreach(i => println(i))
+//		}
 
 	}
 }
