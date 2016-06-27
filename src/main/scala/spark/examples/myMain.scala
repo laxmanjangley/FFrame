@@ -84,10 +84,10 @@ object myMain {
 		val t = new Parser{
 //			var grammar = Map()
 //			var mapping = Map()
-			var expression = "#plus(x,y)"
+			var expression = "#id(x,y)"
 		}
 //		t.tokenize().foreach(x => println(x._2))
-		println(t.parse())
+//		println(t.parse())
 //		println(eval (t.parse()) (env))
 //		x match {
 //			case Op(x, f) => x.foreach(i => println(i))

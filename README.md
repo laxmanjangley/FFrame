@@ -38,4 +38,8 @@ License
 
 
 
+Issues
+------
+String operations unstable, weak typing
+
 

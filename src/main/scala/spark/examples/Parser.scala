@@ -36,7 +36,7 @@ abstract class Parser extends Serializable {
     val number , variable, string, op, rparen, lparen, notok, comma, ws = Value
   }
   import tokenType._
-  val tokenize : Unit => Array[(tokenType, String)] = Unit => {
+  val tokenize : String => Array[(tokenType, String)] = (expression) => {
     val input = expression.toCharArray
     var pos : Int = 0
     val getNextToken = () => {
@@ -73,8 +73,8 @@ abstract class Parser extends Serializable {
     res
   }
 
-  val parse = () => {
-    val tok = tokenize()
+  val parse = (expression : String, env : Map[String, Object]) => {
+    val tok = tokenize(expression)
     val vstack = new mutable.Stack[Object]
     val fstack = new mutable.Stack[String]
     var args : Array[Object] = Array()
