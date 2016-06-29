@@ -41,15 +41,16 @@ class VecTransformer (override val uid: String)
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     val metadata = outputSchema($(outputCol)).metadata
-    val cols = dataset.columns.toSeq
-    val f = udf {r:Row => {
-      val env : Map[String, Object] = mutable.Map[String,Object]()
-      for( i <- 1 to $(numFeatures)){
-          env(cols(i-1)) = r.getInt(i-1).asInstanceOf[Object]
-      }
-      ($(function) ($(tree)) (env)).toString
-    }}
-    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
+//    val cols = dataset.columns.toSeq
+//    val f = udf {r:Row => {
+//      val env : Map[String, Object] = mutable.Map[String,Object]()
+//      for( i <- 1 to $(numFeatures)){
+//          env(cols(i-1)) = r.getInt(i-1).asInstanceOf[Object]
+//      }
+//      ($(function) ($(tree)) (env)).toString
+//    }}
+//    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
+  dataset.select(col("*"), (col("a") * col("b") * col("c")).as($(outputCol), metadata))
   }
 
   override def copy(extra: ParamMap): VecTransformer = defaultCopy(extra)

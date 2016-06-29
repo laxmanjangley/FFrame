@@ -18,40 +18,61 @@ class ExprEval (override val uid: String)
   def this() = this(Identifiable.randomUID("treeTransformer"))
   /*@group param*/
   val inputCols = new Param[Seq[String]](this, "input cols", "yoyo")
-  val function = new Param[Map[String,Object]=>(Map[String,Object]=>Object)](this, "eval", "")
-  val outputCol = new Param[String](this, "output column", "yoyoy")
+  val outputTuples = new Param[Seq[(String, String)]](this, "exp and outputcols", "Ll")
+  val function = new Param[Array[(Object, Object)] => (Map[String,Object]=>Object)](this, "eval", "")
   val numFeatures = new Param[Int](this, "no of cols", "studd")
-  val map = new Param[Map[String, Object]] (this, "sdas", "sadasd")
+  val tt = new Param[String => Array[(Object, Object)]](this, "that", "that")
 
   /*@group setter*/
-  def setOutputCol(value : String) = set(outputCol, value)
   def setInputCols(value : Seq[String]) = set(inputCols, value)
-  def setFunction(value : (Map[String,Object]=>(Map[String,Object]=>Object))) =  set(function, value)
+  def setFunction(value : (Array[(Object, Object)] => (Map[String,Object]=>Object))) =  set(function, value)
   def setNumFeatures(value : Int) = set(numFeatures, value)
-  def setMap(value : Map[String,Object]) = set(map, value)
+  def setTt (value : String => Array[(Object,  Object)]) = set(tt, value)
+  def setoutputTuples (value : Seq[(String, String)]) = set(outputTuples, value)
 
-  override def transformSchema(schema: StructType): StructType = {
+  def transformSchema1(x: String, schema: StructType): StructType = {
     // TODO: Assertions on inputCols
-    val attrGroup = new AttributeGroup($(outputCol), $(numFeatures))
+    val attrGroup = new AttributeGroup(x, $(numFeatures))
     val col = attrGroup.toStructField()
     require(!schema.fieldNames.contains(col.name), s"Column ${col.name} already exists.")
     StructType(schema.fields :+ col)
   }
 
-  override def transform(dataset: DataFrame): DataFrame = {
+  override def transformSchema(schema: StructType): StructType = {
+    // TODO: Assertions on inputCols
+    var sc = schema
+    $(outputTuples) foreach {
+      case(x,y) => sc = transformSchema1(x, sc)
+    }
+    sc
+  }
+
+  def transform1 (dataset: DataFrame) (outputcol : String ,exp : String): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
-    val metadata = outputSchema($(outputCol)).metadata
-    val cols = dataset.columns.toSeq
-    val f = udf { r: Row =>
-      val env : Map[String, Object] = mutable.Map[String,Object]()
-      cols.zipWithIndex foreach {case (x,y) =>
-        if($(inputCols).contains(x)) {
-          env(x) = r.get(y).asInstanceOf[Object]
+    val metadata = outputSchema(outputcol).metadata
+    val x = $(function) ($(tt) (exp))
+    val m = {
+      val map : Map[String, Int] = Map()
+      dataset.columns.toSeq.zipWithIndex foreach {
+        case (x, y) => {
+          if($(inputCols).contains(x)) map(x) = y
         }
       }
-      ($(function) ($(map)) (env)).toString
+      map
     }
-    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
+    val f = udf {r : Row =>
+      val env : Map[String, Object] = Map()
+      $(inputCols).foreach(x => env(x) = r.get(m(x)).asInstanceOf[Object])
+      //todo: type inference
+      (x (env)).toString
+    }
+    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as(outputcol, metadata))
+  }
+
+  override def transform(dataset: DataFrame): DataFrame = {
+    var df = dataset
+    $(outputTuples).foreach {case (x, y) => df = transform1 (df) (x, y)}
+    df
   }
 
   override def copy(extra: ParamMap): ExprEval = defaultCopy(extra)
