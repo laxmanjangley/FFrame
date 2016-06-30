@@ -6,6 +6,7 @@ import org.apache.spark.ml.param.{ParamMap, _}
 import org.apache.spark.ml.util._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.types.Metadata
 import org.apache.spark.sql.{DataFrame, Row, UserDefinedFunction}
 
 import scala.collection.mutable
@@ -30,9 +31,9 @@ class ExprEval (override val uid: String)
   def setTt (value : String => Array[(Object,  Object)]) = set(tt, value)
   def setoutputTuples (value : Seq[(String, String)]) = set(outputTuples, value)
 
-  def transformSchema1(x: String, schema: StructType): StructType = {
+  def transformSchema1(x: String, num:Int , schema: StructType): StructType = {
     // TODO: Assertions on inputCols
-    val attrGroup = new AttributeGroup(x, $(numFeatures))
+    val attrGroup = new AttributeGroup(x, num)
     val col = attrGroup.toStructField()
     require(!schema.fieldNames.contains(col.name), s"Column ${col.name} already exists.")
     StructType(schema.fields :+ col)
@@ -41,15 +42,12 @@ class ExprEval (override val uid: String)
   override def transformSchema(schema: StructType): StructType = {
     // TODO: Assertions on inputCols
     var sc = schema
-    $(outputTuples) foreach {
-      case(x,y) => sc = transformSchema1(x, sc)
-    }
+    var num = $(numFeatures)
+    $(outputTuples).foreach(x => {sc = transformSchema1(x._1, num, sc); num += 1})
     sc
   }
 
-  def transform1 (dataset: DataFrame) (outputcol : String ,exp : String): DataFrame = {
-    val outputSchema = transformSchema(dataset.schema)
-    val metadata = outputSchema(outputcol).metadata
+  def transform1 (dataset: DataFrame) (outputcol : String ,exp : String, metadata : Metadata): DataFrame = {
     val x = $(function) ($(tt) (exp))
     val m = {
       val map : Map[String, Int] = Map()
@@ -70,8 +68,9 @@ class ExprEval (override val uid: String)
   }
 
   override def transform(dataset: DataFrame): DataFrame = {
+    val outputSchema = transformSchema(dataset.schema)
     var df = dataset
-    $(outputTuples).foreach {case (x, y) => df = transform1 (df) (x, y)}
+    $(outputTuples).foreach {case (x, y) => df = transform1 (df) (x, y, metadata = outputSchema(x).metadata)}
     df
   }
 
