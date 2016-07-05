@@ -8,8 +8,6 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.types.Metadata
 import org.apache.spark.sql.{DataFrame, Row, UserDefinedFunction}
-
-import scala.collection.mutable
 import scala.collection.mutable.Map
 /**
   * Created by root on 13/6/16.
@@ -51,7 +49,7 @@ class ExprEval (override val uid: String)
     val x = $(function) ($(tt) (exp))
     val m = {
       val map : Map[String, Int] = Map()
-      dataset.columns.toSeq.zipWithIndex foreach {
+      dataset.columns.zipWithIndex foreach {
         case (x, y) => {
           if($(inputCols).contains(x)) map(x) = y
         }
@@ -64,7 +62,8 @@ class ExprEval (override val uid: String)
       //todo: type inference
       (x (env)).toString
     }
-    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as(outputcol, metadata))
+//    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as(outputcol, metadata))
+    dataset.select(col("*"), f(struct($(inputCols).map(dataset(_)) : _*)).as(outputcol, metadata))
   }
 
   override def transform(dataset: DataFrame): DataFrame = {

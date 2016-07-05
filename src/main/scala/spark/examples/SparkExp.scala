@@ -42,7 +42,7 @@ object SparkExp {
             case r"[#a-zA-Z_][a-zA-Z0-9_]{0,31}" => token = (op, current.mkString)
             //TODO string case here, regex fucks up
             //            case  => token = (string, current.toString)
-            //              case r"[\"].*[\"]" => (string, current.mkString)
+//            case r"[\"].*[\"]" => (string, current.mkString)
             case r"[(]" => token = (lparen, current.mkString)
             case r"[)]" => token = (rparen, current.mkString)
             case r"[,]" => token = (comma, ",")
@@ -136,8 +136,7 @@ object SparkExp {
       .setNumFeatures(5)
       .setTt(tokenize)
       .setoutputTuples(lines)
-    time {ff.transform(df).show(20)}
-//    ff.transform(df).show(20)
+    time  {ff.transform(df).show(20)}
 
 //    val gg = new VecTransformer()
 //      .setTree(null)

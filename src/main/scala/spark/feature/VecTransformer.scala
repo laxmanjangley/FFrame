@@ -50,7 +50,9 @@ class VecTransformer (override val uid: String)
 //      ($(function) ($(tree)) (env)).toString
 //    }}
 //    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as($(outputCol), metadata))
-  dataset.select(col("*"), (col("a") * col("b") * col("c")).as($(outputCol), metadata))
+    val f = udf {x : Int => 1/x}
+//  dataset.select(col("*"), (col("a")*col("b")*col("c")).as($(outputCol), metadata))
+    dataset.select(col("*"), f(col("a")).as($(outputCol), metadata))
   }
 
   override def copy(extra: ParamMap): VecTransformer = defaultCopy(extra)
