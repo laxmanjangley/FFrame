@@ -14,13 +14,13 @@ import scala.collection.mutable.Map
   */
 class ExprEval (override val uid: String)
   extends Transformer {
-  def this() = this(Identifiable.randomUID("treeTransformer"))
+  def this() = this(Identifiable.randomUID("Expression Transformer"))
   /*@group param*/
-  val inputCols = new Param[Seq[String]](this, "input cols", "yoyo")
-  val outputTuples = new Param[Seq[(String, String)]](this, "exp and outputcols", "Ll")
-  val function = new Param[Array[(Object, Object)] => (Map[String,Object]=>Object)](this, "eval", "")
-  val numFeatures = new Param[Int](this, "no of cols", "studd")
-  val tt = new Param[String => Array[(Object, Object)]](this, "that", "that")
+  val inputCols = new Param[Seq[String]](this, "input columns", "input columns pertaining to  all the exporessions specified")
+  val outputTuples = new Param[Seq[(String, String)]](this, "list of tuples containing the output column and its corresponding expression", "list of tuples containing the output column and its corresponding expression")
+  val function = new Param[Array[(Object, Object)] => (Map[String,Object]=>Object)](this, "eval function", "evaluation function for solving each of these expressions")
+  val numFeatures = new Param[Int](this, "no of cols", "number of featuures in the input dataframe")
+  val tt = new Param[String => Array[(Object, Object)]](this, "tokenizer", "tokenizer for the expressions")
 
   /*@group setter*/
   def setInputCols(value : Seq[String]) = set(inputCols, value)
@@ -29,6 +29,8 @@ class ExprEval (override val uid: String)
   def setTt (value : String => Array[(Object,  Object)]) = set(tt, value)
   def setoutputTuples (value : Seq[(String, String)]) = set(outputTuples, value)
 
+
+  //helper function for getting the schema of the dataframe including the column x
   def transformSchema1(x: String, num:Int , schema: StructType): StructType = {
     // TODO: Assertions on inputCols
     val attrGroup = new AttributeGroup(x, num)
@@ -37,16 +39,21 @@ class ExprEval (override val uid: String)
     StructType(schema.fields :+ col)
   }
 
+  //transformSchema inherited from the Transformer class, implemented using the above helper
   override def transformSchema(schema: StructType): StructType = {
     // TODO: Assertions on inputCols
     var sc = schema
     var num = $(numFeatures)
+    //iterative step
     $(outputTuples).foreach(x => {sc = transformSchema1(x._1, num, sc); num += 1})
     sc
   }
 
+  //helper function for generating outputcol using exp, pass metadata as argument
   def transform1 (dataset: DataFrame) (outputcol : String ,exp : String, metadata : Metadata): DataFrame = {
+    //call by value
     val x = $(function) ($(tt) (exp))
+    //map from column name to int, i.e. index in row
     val m = {
       val map : Map[String, Int] = Map()
       dataset.columns.zipWithIndex foreach {
@@ -56,6 +63,7 @@ class ExprEval (override val uid: String)
       }
       map
     }
+    //udf for calculating the new columns
     val f = udf {r : Row =>
       val env : Map[String, Object] = Map()
       $(inputCols).foreach(x => env(x) = r.get(m(x)).asInstanceOf[Object])
@@ -66,9 +74,11 @@ class ExprEval (override val uid: String)
     dataset.select(col("*"), f(struct($(inputCols).map(dataset(_)) : _*)).as(outputcol, metadata))
   }
 
+  //transform method inherited from the Transformer class
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     var df = dataset
+    //iterative evaluation of list of tuples in $(outputTuples)
     $(outputTuples).foreach {case (x, y) => df = transform1 (df) (x, y, metadata = outputSchema(x).metadata)}
     df
   }
