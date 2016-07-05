@@ -3,7 +3,7 @@ FFrame
 expression-transformer in spark
 
 ----------------
-This transformer, is designed with the goal of making feature engineering simpler. It facilitates easy feature specification and improved code reusablity
+This transformer is designed with the goal of making feature engineering simpler. It facilitates easy feature specification and improved code reusablity
 
 
 Current Status
