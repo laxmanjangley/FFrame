@@ -13,7 +13,7 @@ import scala.collection.mutable.Map
 /**
   * Created by root on 13/6/16.
   */
-class VecTransformer (override val uid: String)
+class BenchmarkTransformer(override val uid: String)
   extends Transformer {
   def this() = this(Identifiable.randomUID("treeTransformer"))
   /*@group param*/
@@ -55,6 +55,6 @@ class VecTransformer (override val uid: String)
     dataset.select(col("*"), f(col("a")).as($(outputCol), metadata))
   }
 
-  override def copy(extra: ParamMap): VecTransformer = defaultCopy(extra)
+  override def copy(extra: ParamMap): BenchmarkTransformer = defaultCopy(extra)
 }
 

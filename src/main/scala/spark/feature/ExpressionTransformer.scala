@@ -12,7 +12,8 @@ import scala.collection.mutable.Map
 /**
   * Created by root on 13/6/16.
   */
-class ExprEval (override val uid: String)
+//transformer (v1, v2) , example config file, main class, parsing util, benchmarking code, gen.py documentation,
+class ExpressionTransformer(override val uid: String)
   extends Transformer {
   def this() = this(Identifiable.randomUID("Expression Transformer"))
   /*@group param*/
@@ -83,6 +84,6 @@ class ExprEval (override val uid: String)
     df
   }
 
-  override def copy(extra: ParamMap): ExprEval = defaultCopy(extra)
+  override def copy(extra: ParamMap): ExpressionTransformer = defaultCopy(extra)
 }
 

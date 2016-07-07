@@ -1,13 +1,5 @@
-package spark.examples
+package spark.progress
 
-import spark.examples.{Const, Op, Tree, Var}
-
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
-
-import org.apache.spark.sql.SQLContext
-import org.apache.spark.{SparkConf, SparkContext}
-import spark.feature.{ExprTransformer, VecTransformer}
-import spark.examples.Parser
 import scala.collection.mutable
 import scala.collection.mutable.Map
 

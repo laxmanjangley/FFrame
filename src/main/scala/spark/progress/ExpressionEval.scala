@@ -1,5 +1,4 @@
-package spark.examples
-
+package spark.progress
 
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.attribute.AttributeGroup

@@ -1,6 +1,4 @@
-package spark.examples
-
-import com.linkedin.featurefu.expr._
+package spark.progress
 
 /**
   * Created by laxman.jangley on 25/5/16.

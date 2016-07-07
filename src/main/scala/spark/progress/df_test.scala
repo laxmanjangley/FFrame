@@ -1,10 +1,9 @@
-package spark.examples
+package spark.progress
 
 import com.linkedin.featurefu.expr.{Expression, VariableRegistry}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
-import spark.feature.{ExprTransformer, VecTransformer}
-import spark.examples._
+import spark.feature.FeatureFuTransformer
 
 import scala.collection.mutable.Map
 
@@ -48,7 +47,7 @@ class df_test {
 //    var t1 = System.nanoTime()
 //    println("Elapsed time 1: " + (t1 - t0) + "ns")
 //
-    val gg = new ExprTransformer()
+    val gg = new FeatureFuTransformer()
       .setExpr("(+ a (* b (+ c d)))")
       .setOutputCol("f")
       .setInputCols(Seq("a","b", "c", "d"))

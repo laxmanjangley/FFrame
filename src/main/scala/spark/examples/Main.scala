@@ -1,8 +1,9 @@
 package spark.examples
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
-import spark.feature.{ExprEval, VecTransformer}
+import spark.feature.{ExpressionTransformer, BenchmarkTransformer}
 import scala.io.Source
+import spark.parserUtil.Parser
 import scala.collection.mutable
 import scala.collection.mutable.Map
 
@@ -10,7 +11,7 @@ import scala.collection.mutable.Map
   * Created by root on 24/6/16.
   */
 
-object SparkExp {
+object Main {
 
   implicit class Regex(sc: StringContext) {
     def r = new scala.util.matching.Regex(sc.parts.mkString, sc.parts.tail.map(_ => "x"): _*)
@@ -40,7 +41,7 @@ object SparkExp {
             case r"^[-+]?\d*\.?\d*" => token = (number, current.mkString)
             case r"[a-zA-Z_][a-zA-Z0-9_]{0,31}" => token = (variable, current.mkString)
             case r"[#a-zA-Z_][a-zA-Z0-9_]{0,31}" => token = (op, current.mkString)
-            //TODO string case here, regex fucks up
+            //TODO string case here
             //            case  => token = (string, current.toString)
 //            case r"[\"].*[\"]" => (string, current.mkString)
             case r"[(]" => token = (lparen, current.mkString)
@@ -61,7 +62,8 @@ object SparkExp {
     res
   }
 
-  val parse = (fenv: mutable.Map[String, Object]) => (tok : Array[(Object, Object)]) =>  (env: Map[String, Object]) => {
+//  val parse = (fenv: mutable.Map[String, Object]) => (tok : Array[(Object, Object)]) =>  (env: Map[String, Object]) => {
+  def parse [T] (fenv: mutable.Map[String, Object])  (tok : Array[(Object, Object)])  (env: Map[String, Object]) = {
     val vstack = new mutable.Stack[Object]
     val fstack = new mutable.Stack[String]
     //      val tok = tokenize(exp)
@@ -87,7 +89,7 @@ object SparkExp {
     }
     args(0)
   }
-
+//  val x = parse[Int] _
   def main (arg : Array[String]): Unit = {
 
 
@@ -104,7 +106,7 @@ object SparkExp {
     class functions extends Serializable {
       val f: (Array[Object] => Object) = {
         case (Array(x)) => x
-        case x: Array[Object] => (x(0).asInstanceOf[Int] * f(x.drop(1)).asInstanceOf[Int]).asInstanceOf[Object]
+        case x: Array[Object] => (x(0).asInstanceOf[Int] + f(x.drop(1)).asInstanceOf[Int]).asInstanceOf[Object]
       }
       val g: (Array[Object] => Object) = {
         case (Array(x)) => x.asInstanceOf[String]
@@ -123,28 +125,15 @@ object SparkExp {
     var env: Environment = Map()
     val z = new functions()
 
-
-  env("#f") = (z.f.asInstanceOf[Object])
-
+    val p = new Parser {}
+    env("#f") = (z.f.asInstanceOf[Object])
     val lines = Source.fromFile("/home/laxman.jangley/project/FFrame/example").getLines.toSeq.map(l => (l.split('=')(0).trim, l.split('=')(1).trim))
-//    lines.foreach(println)
-    //    env.foreach {case (x,y) => println(x)}
-    //    System.exit(0)
-    val ff = new ExprEval()
-      .setFunction(parse(env) )
+    val ff = new ExpressionTransformer()
+      .setFunction(p.parse(env) )
       .setInputCols(Seq("a", "b", "c"))
       .setNumFeatures(5)
-      .setTt(tokenize)
+      .setTt(p.tokenize)
       .setoutputTuples(lines)
-    time  {ff.transform(df).show(20)}
-
-//    val gg = new VecTransformer()
-//      .setTree(null)
-//      .setNumFeatures((5))
-//      .setOutputCol("relax")
-//      .setInputCols(Seq())
-//      .setFunction(null)
-//    time {gg.transform(df).show(20)}
-//    tokenize("\"laxman\"")
+    ff.transform(df).show()
   }
 }

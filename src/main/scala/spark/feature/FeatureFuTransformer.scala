@@ -27,7 +27,7 @@ trait FFParams extends Params {
   }
 }
 
-class ExprTransformer (override val uid: String) extends Transformer with FFParams{
+class FeatureFuTransformer(override val uid: String) extends Transformer with FFParams{
 
   def this() = this(Identifiable.randomUID("Expression Transformer"))
 
@@ -72,5 +72,5 @@ class ExprTransformer (override val uid: String) extends Transformer with FFPara
     StructType(schema.fields :+ col)
   }
 
-  override def copy(extra: ParamMap): ExprTransformer = defaultCopy(extra)
+  override def copy(extra: ParamMap): FeatureFuTransformer = defaultCopy(extra)
 }
