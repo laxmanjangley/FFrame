@@ -129,10 +129,10 @@ object Main {
     env("#f") = (z.f.asInstanceOf[Object])
     val lines = Source.fromFile("/home/laxman.jangley/project/FFrame/example").getLines.toSeq.map(l => (l.split('=')(0).trim, l.split('=')(1).trim))
     val ff = new ExpressionTransformer()
-      .setFunction(p.parse(env) )
+      .setFunction(parse(env) )
       .setInputCols(Seq("a", "b", "c"))
       .setNumFeatures(5)
-      .setTt(p.tokenize)
+      .setTt(tokenize)
       .setoutputTuples(lines)
     ff.transform(df).show()
   }

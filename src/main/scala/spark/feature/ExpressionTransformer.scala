@@ -59,6 +59,7 @@ class ExpressionTransformer(override val uid: String)
       val map : Map[String, Int] = Map()
       dataset.columns.zipWithIndex foreach {
         case (x, y) => {
+          println(x)
           if($(inputCols).contains(x)) map(x) = y
         }
       }
@@ -68,9 +69,11 @@ class ExpressionTransformer(override val uid: String)
     val f = udf {r : Row =>
       val env : Map[String, Object] = Map()
       $(inputCols).foreach(x => env(x) = r.get(m(x)).asInstanceOf[Object])
+//      dataset.columns.zipWithIndex foreach {case (x,y) => env(x) = r.get(y).asInstanceOf[Object]}
       //todo: type inference
       (x (env)).toString
     }
+
 //    dataset.select(col("*"), f(struct(dataset.columns.map(dataset(_)) : _*)).as(outputcol, metadata))
     dataset.select(col("*"), f(struct($(inputCols).map(dataset(_)) : _*)).as(outputcol, metadata))
   }
@@ -79,6 +82,7 @@ class ExpressionTransformer(override val uid: String)
   override def transform(dataset: DataFrame): DataFrame = {
     val outputSchema = transformSchema(dataset.schema)
     var df = dataset
+    val z = $(inputCols)
     //iterative evaluation of list of tuples in $(outputTuples)
     $(outputTuples).foreach {case (x, y) => df = transform1 (df) (x, y, metadata = outputSchema(x).metadata)}
     df
