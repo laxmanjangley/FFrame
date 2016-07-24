@@ -39,9 +39,5 @@ val ff = new ExprEval()
 ff.transform(your_dataframe)
 ````
 
-Issues
-------
-Type inference buggy.
-
 
 
